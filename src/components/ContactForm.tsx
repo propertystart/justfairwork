@@ -39,16 +39,20 @@ const Motion = ({ children, ...props }: any) => {
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
-    subject: '',
+    company: '',
+    position: '',
+    enquiryType: '',
     message: '',
+    howDidYouHear: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -64,11 +68,15 @@ const ContactForm = () => {
         description: "We'll get back to you as soon as possible.",
       });
       setFormData({
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         phone: '',
-        subject: '',
+        company: '',
+        position: '',
+        enquiryType: '',
         message: '',
+        howDidYouHear: '',
       });
       setIsSubmitting(false);
     }, 1500);
@@ -115,23 +123,40 @@ const ContactForm = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm font-medium text-navy-700">
-                      Your Name
+                    <label htmlFor="firstName" className="text-sm font-medium text-navy-700">
+                      First Name*
                     </label>
                     <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
+                      id="firstName"
+                      name="firstName"
+                      value={formData.firstName}
                       onChange={handleChange}
-                      placeholder="John Doe"
+                      placeholder="John"
                       required
                       className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
                     />
                   </div>
                   
                   <div className="space-y-2">
+                    <label htmlFor="lastName" className="text-sm font-medium text-navy-700">
+                      Last Name*
+                    </label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      placeholder="Doe"
+                      required
+                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-medium text-navy-700">
-                      Email Address
+                      Email Address*
                     </label>
                     <Input
                       id="email"
@@ -144,12 +169,10 @@ const ContactForm = () => {
                       className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
                     />
                   </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  
                   <div className="space-y-2">
                     <label htmlFor="phone" className="text-sm font-medium text-navy-700">
-                      Phone Number
+                      Phone Number*
                     </label>
                     <Input
                       id="phone"
@@ -157,29 +180,66 @@ const ContactForm = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="+61 123 456 789"
-                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label htmlFor="subject" className="text-sm font-medium text-navy-700">
-                      Subject
-                    </label>
-                    <Input
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      placeholder="How can we help?"
                       required
                       className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
                     />
                   </div>
                 </div>
                 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label htmlFor="company" className="text-sm font-medium text-navy-700">
+                      Company
+                    </label>
+                    <Input
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      placeholder="Company Name"
+                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="position" className="text-sm font-medium text-navy-700">
+                      Position
+                    </label>
+                    <Input
+                      id="position"
+                      name="position"
+                      value={formData.position}
+                      onChange={handleChange}
+                      placeholder="Your Position"
+                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="enquiryType" className="text-sm font-medium text-navy-700">
+                    Enquiry Type*
+                  </label>
+                  <select
+                    id="enquiryType"
+                    name="enquiryType"
+                    value={formData.enquiryType}
+                    onChange={handleChange}
+                    required
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm border-navy-200 focus:border-navy-400 focus:ring-navy-400"
+                  >
+                    <option value="" disabled>Select an enquiry type</option>
+                    <option value="general">General Enquiry</option>
+                    <option value="workplace">Workplace Rights</option>
+                    <option value="compliance">Compliance Enquiry</option>
+                    <option value="dispute">Dispute Resolution</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium text-navy-700">
-                    Your Message
+                    Your Message*
                   </label>
                   <Textarea
                     id="message"
@@ -191,6 +251,26 @@ const ContactForm = () => {
                     required
                     className="border-navy-200 focus:border-navy-400 focus:ring-navy-400 resize-none"
                   />
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="howDidYouHear" className="text-sm font-medium text-navy-700">
+                    How did you hear about us?
+                  </label>
+                  <select
+                    id="howDidYouHear"
+                    name="howDidYouHear"
+                    value={formData.howDidYouHear}
+                    onChange={handleChange}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm border-navy-200 focus:border-navy-400 focus:ring-navy-400"
+                  >
+                    <option value="" disabled>Please select</option>
+                    <option value="search">Search Engine</option>
+                    <option value="social">Social Media</option>
+                    <option value="referral">Referral</option>
+                    <option value="advertisement">Advertisement</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
                 
                 <Button 
