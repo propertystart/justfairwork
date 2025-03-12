@@ -13,6 +13,7 @@ interface InfoSectionProps {
   features?: { icon: React.ReactNode; title: string; description: string }[];
   ctaText?: string;
   ctaLink?: string;
+  customContent?: React.ReactNode;
 }
 
 const Motion = ({ children, ...props }: any) => {
@@ -56,6 +57,7 @@ const InfoSection = ({
   features,
   ctaText = 'Learn More',
   ctaLink = '#',
+  customContent,
 }: InfoSectionProps) => {
   return (
     <section id={id} className="py-20 lg:py-32 overflow-hidden">
@@ -96,6 +98,12 @@ const InfoSection = ({
               <h2 className="text-3xl lg:text-4xl font-bold text-navy-900 mb-6">{title}</h2>
               <p className="text-lg text-navy-700 mb-8 max-w-lg">{description}</p>
               
+              {customContent && (
+                <div className="mb-8">
+                  {customContent}
+                </div>
+              )}
+              
               {features && (
                 <div className="space-y-6 mb-8">
                   {features.map((feature, index) => (
@@ -112,7 +120,16 @@ const InfoSection = ({
                 </div>
               )}
               
-              <Button className="mt-2 bg-navy-700 hover:bg-navy-800 transition-all flex items-center gap-2">
+              <Button 
+                className="mt-2 bg-navy-700 hover:bg-navy-800 transition-all flex items-center gap-2"
+                onClick={() => {
+                  if (ctaLink.startsWith('tel:')) {
+                    window.location.href = ctaLink;
+                  } else {
+                    window.location.href = ctaLink;
+                  }
+                }}
+              >
                 {ctaText}
                 <ArrowRight className="w-4 h-4" />
               </Button>

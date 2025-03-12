@@ -5,7 +5,7 @@ import Hero from '@/components/Hero';
 import InfoSection from '@/components/InfoSection';
 import ContactForm from '@/components/ContactForm';
 import Footer from '@/components/Footer';
-import { Shield, FileCheck, Book, Users, Phone, Clock } from 'lucide-react';
+import { FileCheck, Book, Users, Phone, Clock, Shield, CheckCircle, FileText, DollarSign } from 'lucide-react';
 
 const Index = () => {
   // Initialize intersection observer for animations
@@ -37,26 +37,36 @@ const Index = () => {
       
       <InfoSection
         id="about"
-        title="About Fair Work Australia"
-        subtitle="Who We Are"
-        description="Fair Work Australia is the national workplace relations tribunal. We are an independent body with authority to carry out a range of functions under the Fair Work Act 2009."
+        title="Have You Been Unfairly Dismissed From Your Employment?"
+        subtitle="No Win, No Fee"
+        description="We provide a 'No Win, No Fee' Service for representation in Fair Work Commission (FWC) unfair dismissal cases, ensuring that everyone has access to justice, regardless of their financial circumstances."
+        imageSrc="/lovable-uploads/fafc5e90-4433-4986-a4df-6b2267280668.png"
         features={[
           {
-            icon: <Shield className="w-5 h-5" />,
-            title: "Protect Workplace Rights",
-            description: "We ensure employees receive their proper entitlements and protections under Australian law."
+            icon: <DollarSign className="w-5 h-5" />,
+            title: "Financial Barriers to Justice",
+            description: "In many instances, legal firms impose fees that surpass the potential compensation, discouraging individuals from pursuing their claims or securing adequate representation."
           },
           {
-            icon: <FileCheck className="w-5 h-5" />,
-            title: "Compliant Workplaces",
-            description: "We help businesses understand their obligations to create fair and lawful workplaces."
+            icon: <FileText className="w-5 h-5" />,
+            title: "Complete Legal Support",
+            description: "We handle all the legal paperwork required by the Fair Work Commission and represent you at the conciliation conference."
           },
           {
-            icon: <Book className="w-5 h-5" />,
-            title: "Educational Resources",
-            description: "We provide comprehensive guides and resources on workplace laws and regulations."
+            icon: <CheckCircle className="w-5 h-5" />,
+            title: "Comprehensive Representation",
+            description: "If no agreement is reached in conciliation, we will prepare the required documentation and represent you as a paid agent at the FWC hearing."
           }
         ]}
+        ctaText="Call 1800 87 86 87"
+        ctaLink="tel:1800878687"
+        customContent={
+          <div className="mt-6 text-navy-700">
+            <p className="mb-4">This often results in valid cases going unrepresented, leading to a lack of fairness in the process.</p>
+            <p className="mb-4">Our service is designed to bridge this gap, offering professional advocacy without the burden of upfront legal fees, without the risk of incurring legal costs unless a successful outcome is achieved.</p>
+            <p className="mb-6 text-xl font-medium text-navy-900">Let us remove the financial stress and fight for the justice you deserve!</p>
+          </div>
+        }
       />
       
       <InfoSection
