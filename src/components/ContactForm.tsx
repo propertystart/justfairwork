@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
-import { Phone, Mail, MapPin, Send } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 
 const Motion = ({ children, ...props }: any) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -39,22 +39,25 @@ const Motion = ({ children, ...props }: any) => {
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    fullName: '',
     email: '',
-    phone: '',
-    company: '',
-    position: '',
-    enquiryType: '',
-    message: '',
-    howDidYouHear: '',
+    phoneNumber: '',
+    isDismissed: '',
+    jobLocation: '',
+    employmentDuration: '',
+    dismissalTime: '',
+    employmentType: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleOptionSelect = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,15 +71,14 @@ const ContactForm = () => {
         description: "We'll get back to you as soon as possible.",
       });
       setFormData({
-        firstName: '',
-        lastName: '',
+        fullName: '',
         email: '',
-        phone: '',
-        company: '',
-        position: '',
-        enquiryType: '',
-        message: '',
-        howDidYouHear: '',
+        phoneNumber: '',
+        isDismissed: '',
+        jobLocation: '',
+        employmentDuration: '',
+        dismissalTime: '',
+        employmentType: '',
       });
       setIsSubmitting(false);
     }, 1500);
@@ -100,6 +102,11 @@ const ContactForm = () => {
     },
   ];
 
+  // Define option button styles
+  const baseButtonStyles = "px-4 py-2 rounded-md transition-all duration-200 focus:outline-none border border-gray-200";
+  const activeButtonStyles = "bg-[#10b981] text-white border-[#10b981]";
+  const inactiveButtonStyles = "bg-gray-100 text-navy-700 hover:bg-gray-200";
+
   return (
     <section id="contact" className="py-20 lg:py-32 bg-navy-50/50">
       <div className="container mx-auto px-4">
@@ -118,168 +125,172 @@ const ContactForm = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <Motion>
             <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-100">
-              <h3 className="text-2xl font-bold text-navy-800 mb-6">Send us a message</h3>
+              <h3 className="text-2xl font-bold text-navy-800 mb-6">Please fill out the form below</h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label htmlFor="firstName" className="text-sm font-medium text-navy-700">
-                      First Name*
-                    </label>
-                    <Input
-                      id="firstName"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      placeholder="John"
-                      required
-                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label htmlFor="lastName" className="text-sm font-medium text-navy-700">
-                      Last Name*
-                    </label>
-                    <Input
-                      id="lastName"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      placeholder="Doe"
-                      required
-                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
-                    />
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-medium text-navy-700">
-                      Email Address*
-                    </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="john@example.com"
-                      required
-                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label htmlFor="phone" className="text-sm font-medium text-navy-700">
-                      Phone Number*
-                    </label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+61 123 456 789"
-                      required
-                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
-                    />
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label htmlFor="company" className="text-sm font-medium text-navy-700">
-                      Company
-                    </label>
-                    <Input
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      placeholder="Company Name"
-                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label htmlFor="position" className="text-sm font-medium text-navy-700">
-                      Position
-                    </label>
-                    <Input
-                      id="position"
-                      name="position"
-                      value={formData.position}
-                      onChange={handleChange}
-                      placeholder="Your Position"
-                      className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
-                    />
-                  </div>
-                </div>
-                
                 <div className="space-y-2">
-                  <label htmlFor="enquiryType" className="text-sm font-medium text-navy-700">
-                    Enquiry Type*
+                  <label htmlFor="fullName" className="text-sm font-medium text-navy-700">
+                    Full Name *
                   </label>
-                  <select
-                    id="enquiryType"
-                    name="enquiryType"
-                    value={formData.enquiryType}
+                  <Input
+                    id="fullName"
+                    name="fullName"
+                    value={formData.fullName}
                     onChange={handleChange}
+                    placeholder="Enter your full name"
                     required
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm border-navy-200 focus:border-navy-400 focus:ring-navy-400"
-                  >
-                    <option value="" disabled>Select an enquiry type</option>
-                    <option value="general">General Enquiry</option>
-                    <option value="workplace">Workplace Rights</option>
-                    <option value="compliance">Compliance Enquiry</option>
-                    <option value="dispute">Dispute Resolution</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium text-navy-700">
-                    Your Message*
-                  </label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Please provide details about your inquiry..."
-                    rows={5}
-                    required
-                    className="border-navy-200 focus:border-navy-400 focus:ring-navy-400 resize-none"
+                    className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
                   />
+                  {!formData.fullName && (
+                    <p className="text-red-500 text-xs">Field is required</p>
+                  )}
                 </div>
                 
                 <div className="space-y-2">
-                  <label htmlFor="howDidYouHear" className="text-sm font-medium text-navy-700">
-                    How did you hear about us?
+                  <label htmlFor="email" className="text-sm font-medium text-navy-700">
+                    Email Address *
                   </label>
-                  <select
-                    id="howDidYouHear"
-                    name="howDidYouHear"
-                    value={formData.howDidYouHear}
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
                     onChange={handleChange}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm border-navy-200 focus:border-navy-400 focus:ring-navy-400"
-                  >
-                    <option value="" disabled>Please select</option>
-                    <option value="search">Search Engine</option>
-                    <option value="social">Social Media</option>
-                    <option value="referral">Referral</option>
-                    <option value="advertisement">Advertisement</option>
-                    <option value="other">Other</option>
-                  </select>
+                    placeholder="Enter your email address"
+                    required
+                    className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
+                  />
+                  {!formData.email && (
+                    <p className="text-red-500 text-xs">Field is required</p>
+                  )}
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="phoneNumber" className="text-sm font-medium text-navy-700">
+                    Phone number *
+                  </label>
+                  <Input
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleChange}
+                    placeholder="Enter your phone number"
+                    required
+                    className="border-navy-200 focus:border-navy-400 focus:ring-navy-400"
+                  />
+                  {!formData.phoneNumber && (
+                    <p className="text-red-500 text-xs">Field is required</p>
+                  )}
+                </div>
+                
+                <div className="space-y-4">
+                  <label className="text-sm font-medium text-navy-700">
+                    Have you already been dismissed? *
+                  </label>
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => handleOptionSelect('isDismissed', 'YES')}
+                      className={`${baseButtonStyles} ${formData.isDismissed === 'YES' ? activeButtonStyles : inactiveButtonStyles}`}
+                    >
+                      YES
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleOptionSelect('isDismissed', 'NO')}
+                      className={`${baseButtonStyles} ${formData.isDismissed === 'NO' ? activeButtonStyles : inactiveButtonStyles}`}
+                    >
+                      NO
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-sm font-medium text-navy-700">
+                    Where was your job based? *
+                  </label>
+                  <div className="flex flex-wrap gap-4">
+                    {['VIC', 'NSW', 'QLD', 'SA', 'WA'].map((location) => (
+                      <button
+                        key={location}
+                        type="button"
+                        onClick={() => handleOptionSelect('jobLocation', location)}
+                        className={`${baseButtonStyles} ${formData.jobLocation === location ? activeButtonStyles : inactiveButtonStyles}`}
+                      >
+                        {location}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-sm font-medium text-navy-700">
+                    How long had you been employed for? *
+                  </label>
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => handleOptionSelect('employmentDuration', '12+ Months')}
+                      className={`${baseButtonStyles} ${formData.employmentDuration === '12+ Months' ? activeButtonStyles : inactiveButtonStyles}`}
+                    >
+                      12+ Months
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleOptionSelect('employmentDuration', '0-12 Months')}
+                      className={`${baseButtonStyles} ${formData.employmentDuration === '0-12 Months' ? activeButtonStyles : inactiveButtonStyles}`}
+                    >
+                      0-12 Months
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-sm font-medium text-navy-700">
+                    When were you Dismissed? *
+                  </label>
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => handleOptionSelect('dismissalTime', 'Under 21 Days Ago')}
+                      className={`${baseButtonStyles} ${formData.dismissalTime === 'Under 21 Days Ago' ? activeButtonStyles : inactiveButtonStyles}`}
+                    >
+                      Under 21 Days Ago
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleOptionSelect('dismissalTime', 'Over 21 Days Ago')}
+                      className={`${baseButtonStyles} ${formData.dismissalTime === 'Over 21 Days Ago' ? activeButtonStyles : inactiveButtonStyles}`}
+                    >
+                      Over 21 Days Ago
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-sm font-medium text-navy-700">
+                    How were you employed? *
+                  </label>
+                  <div className="flex flex-wrap gap-4">
+                    {['Casual', 'Full Time', 'Part Time'].map((type) => (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => handleOptionSelect('employmentType', type)}
+                        className={`${baseButtonStyles} ${formData.employmentType === type ? activeButtonStyles : inactiveButtonStyles}`}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 
                 <Button 
-                  type="submit" 
+                  type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-6 bg-navy-700 hover:bg-navy-800 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-6 bg-[#6366f1] hover:bg-[#4f46e5] transition-all"
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                  <Send className="h-4 w-4" />
+                  {isSubmitting ? 'Submitting...' : 'Submit Form'}
                 </Button>
               </form>
             </div>
